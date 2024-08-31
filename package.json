@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.2.7",
     "react": "^18",
