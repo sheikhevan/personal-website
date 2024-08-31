@@ -18,7 +18,17 @@ export default function BlogPostContent({
   const [contentHtml, setContentHtml] = useState("");
 
   useEffect(() => {
-    setContentHtml(marked(content));
+    const renderMarkdown = async () => {
+      try {
+        const html = await marked(content);
+        setContentHtml(html);
+      } catch (error) {
+        console.error("Error rendering markdown:", error);
+        setContentHtml("<p>Error rendering content</p>");
+      }
+    };
+
+    renderMarkdown();
   }, [content]);
 
   return (
