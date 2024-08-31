@@ -1,6 +1,6 @@
 ---
-title: 'My First Blog Post'
-date: '2023-04-01'
+title: 'First Post'
+date: '2023-08-30'
 ---
 
-This is the content of my first blog post.
+This is my blog.

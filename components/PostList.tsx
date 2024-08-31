@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PostMetadata } from "../lib/posts";
-import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
+import { PostMetadata } from "@/lib/posts";
+import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
 
 interface PostListProps {
   posts: PostMetadata[];
