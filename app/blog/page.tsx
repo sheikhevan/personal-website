@@ -8,8 +8,12 @@ export default async function Home() {
 
   return (
     <main>
-      <h1>My Blog</h1>
-      <PostList posts={allPostsData} />
+      <div className="h-screen w-full bg-white bg-dot-hunter/[0.4] flex flex-col items-center justify-center">
+        <p className="text-4xl sm:text-8xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-sage to-fern py-6">
+          Blog
+        </p>
+        <PostList posts={allPostsData} />
+      </div>
     </main>
   );
 }

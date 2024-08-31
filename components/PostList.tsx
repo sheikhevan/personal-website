@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PostMetadata } from "../lib/posts";
+import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 
 interface PostListProps {
   posts: PostMetadata[];
@@ -7,14 +8,16 @@ interface PostListProps {
 
 export default function PostList({ posts }: PostListProps) {
   return (
-    <ul>
+    <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem]">
       {posts.map(({ id, date, title }) => (
-        <li key={id}>
-          <Link href={`/blog/${id}`}>{title}</Link>
-          <br />
-          <small>{date}</small>
-        </li>
+        <Link key={id} href={`/blog/${id}`}>
+          <BentoGridItem
+            header="image goes here"
+            title={title}
+            description={date}
+          ></BentoGridItem>
+        </Link>
       ))}
-    </ul>
+    </BentoGrid>
   );
 }
