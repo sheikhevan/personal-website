@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, BookOpen, User, Menu } from "lucide-react";
@@ -26,25 +26,31 @@ const NavLink: React.FC<NavLinkProps> = ({
   const router = useRouter();
   const isActive = pathname === href;
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (smoothScroll) {
-      e.preventDefault();
+      const targetId = href.replace("#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        console.error(`Element with id "${targetId}" not found`);
+      }
+    } else {
       router.push(href);
     }
     if (onClick) onClick();
   };
 
   return (
-    <Link href={href} passHref>
-      <Button
-        variant={isActive ? "secondary" : "ghost"}
-        className="w-full justify-start"
-        onClick={handleClick}
-      >
-        {icon}
-        <span className="ml-2">{children}</span>
-      </Button>
-    </Link>
+    <Button
+      variant={isActive ? "secondary" : "ghost"}
+      className="w-full justify-start"
+      onClick={handleClick}
+    >
+      {icon}
+      <span className="ml-2">{children}</span>
+    </Button>
   );
 };
 
@@ -52,27 +58,6 @@ const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeSheet = () => setIsOpen(false);
-
-  useEffect(() => {
-    const handleSmoothScroll = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const element = document.querySelector(hash);
-        if (element) {
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: "smooth" });
-          }, 0);
-        }
-      }
-    };
-
-    handleSmoothScroll();
-    window.addEventListener("hashchange", handleSmoothScroll);
-
-    return () => {
-      window.removeEventListener("hashchange", handleSmoothScroll);
-    };
-  }, []);
 
   const NavContent: React.FC = () => (
     <>
@@ -84,7 +69,7 @@ const NavigationBar: React.FC = () => {
         Home
       </NavLink>
       <NavLink
-        href="/#about"
+        href="#about"
         icon={<User className="h-4 w-4" />}
         onClick={closeSheet}
         smoothScroll
