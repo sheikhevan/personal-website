@@ -90,8 +90,11 @@ const NavigationBar: React.FC = () => {
     <nav className="backdrop-blur border-b-2 border-gray-200 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         <Link href="/" passHref>
-          <Button variant="ghost" className="text-lg font-semibold">
-            Evan Alvarez
+          <Button
+            variant="ghost"
+            className="text-3xl hover:bg-white hover:text-hunter text-hunter font-bold"
+          >
+            EA
           </Button>
         </Link>
         <div className="hidden md:flex items-center space-x-4">

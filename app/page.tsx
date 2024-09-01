@@ -39,7 +39,7 @@ export default function Home() {
       <div id="about" className="w-full bg-white bg-dot-hunter/[0.4] py-16">
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-center">
           <div className="w-full md:w-1/2 mb-8 md:mb-0 md:pr-8">
-            <div className="relative w-full aspect-square max-w-md mx-auto">
+            <div className="relative w-full aspect-square max-w-md mx-auto px-4 sm:px-0">
               <Image
                 src="/evan_image_01.jpg"
                 alt="Evan Alvarez"
