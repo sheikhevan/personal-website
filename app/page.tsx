@@ -48,12 +48,12 @@ export default function Home() {
               deep passion for programming. What I love most about programming
               is the creativity and uniqueness involved. Like a cryptographic
               hash, no two peoples solution to a complex problem will be the
-              same. If you couldn't tell by that last sentence, I also take a
-              strong interest in security and cryptography. On a normal day, you
-              might find me working on a new project, contributing to open
-              source, or even reading philosophy. I'm always looking to connect
-              with others who share my enthusiasm for programming and who will
-              help me grow both personally and professionally.
+              same. If you couldn&apos;t tell by that last sentence, I also take
+              a strong interest in security and cryptography. On a normal day,
+              you might find me working on a new project, contributing to open
+              source, or even reading philosophy. I&apos;m always looking to
+              connect with others who share my enthusiasm for programming and
+              who will help me grow both personally and professionally.
             </p>
           </div>
         </div>
