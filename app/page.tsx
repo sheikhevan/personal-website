@@ -44,16 +44,16 @@ export default function Home() {
           <div className="bg-white p-8 rounded-lg shadow-lg">
             <h2 className="text-4xl font-bold text-fern mb-4">About Me</h2>
             <p className="text-lg text-hunter">
-              Hey! I'm Evan. I am a student at Westwood High School with a deep
-              passion for programming. What I love most about programming is the
-              creativity and uniqueness involved. Like a cryptographic hash, no
-              two peoples solution to a complex problem will be the same. If you
-              couldn't tell by that last sentence, I also take a strong interest
-              in security and cryptography. On a normal day, you might find me
-              working on a new project, contributing to open source, or even
-              reading philosophy. I'm always looking to connect with others who
-              share my enthusiasm for programming and who will help me grow both
-              personally and professionally.
+              Hey! I&apos;m Evan. I am a student at Westwood High School with a
+              deep passion for programming. What I love most about programming
+              is the creativity and uniqueness involved. Like a cryptographic
+              hash, no two peoples solution to a complex problem will be the
+              same. If you couldn't tell by that last sentence, I also take a
+              strong interest in security and cryptography. On a normal day, you
+              might find me working on a new project, contributing to open
+              source, or even reading philosophy. I'm always looking to connect
+              with others who share my enthusiasm for programming and who will
+              help me grow both personally and professionally.
             </p>
           </div>
         </div>
