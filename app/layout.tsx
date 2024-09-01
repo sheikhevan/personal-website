@@ -7,7 +7,7 @@ const dmsans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Evan Alvarez",
-  description: "My small corner of the internet",
+  description: "My corner of the internet",
 };
 
 export default function RootLayout({
