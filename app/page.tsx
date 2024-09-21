@@ -1,47 +1,22 @@
 "use client";
 
-import React, { useCallback, useMemo } from "react";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 
-const skills = [
-  { name: "HTML", icon: "/icons/html.svg" },
-  { name: "CSS", icon: "/icons/css.svg" },
-  { name: "JavaScript", icon: "/icons/javascript.svg" },
-  { name: "TypeScript", icon: "/icons/typescript.svg" },
-  { name: "React", icon: "/icons/react.svg" },
-  { name: "NextJS", icon: "/icons/next.svg" },
-  { name: "Rust", icon: "/icons/rust.svg" },
-];
-
-const SkillItem = React.memo(({ skill }) => (
-  <li className="flex items-center space-x-4">
-    <Image
-      src={skill.icon}
-      alt={skill.name}
-      width={32}
-      height={32}
-    />
-    <span className="text-lg font-semibold text-hunter">
-      {skill.name}
-    </span>
-  </li>
-));
-
-SkillItem.displayName = 'SkillItem';
-
 export default function Home() {
-  const handleScrollToAbout = useCallback(() => {
+  const handleScrollToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  };
 
-  const skillsList = useMemo(() => (
-    <ul className="space-y-4 mb-8 md:mb-0">
-      {skills.map((skill) => (
-        <SkillItem key={skill.name} skill={skill} />
-      ))}
-    </ul>
-  ), []);
+  const skills = [
+    { name: "HTML", icon: "/icons/html.svg" },
+    { name: "CSS", icon: "/icons/css.svg" },
+    { name: "JavaScript", icon: "/icons/javascript.svg" },
+    { name: "TypeScript", icon: "/icons/typescript.svg" },
+    { name: "React", icon: "/icons/react.svg" },
+    { name: "NextJS", icon: "/icons/next.svg" },
+    { name: "Rust", icon: "/icons/rust.svg" },
+  ];
 
   return (
     <main>
@@ -148,4 +123,3 @@ export default function Home() {
     </main>
   );
 }
-

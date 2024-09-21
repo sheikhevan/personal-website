@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, BookOpen, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,7 +15,7 @@ interface NavLinkProps {
   smoothScroll?: boolean;
 }
 
-const NavLink: React.FC<NavLinkProps> = React.memo(({
+const NavLink: React.FC<NavLinkProps> = ({
   href,
   icon,
   children,
@@ -23,64 +23,68 @@ const NavLink: React.FC<NavLinkProps> = React.memo(({
   smoothScroll,
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const isActive = pathname === href;
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (smoothScroll) {
-      e.preventDefault();
       const targetId = href.replace("#", "");
-      if (pathname === "/") {
-        const element = document.getElementById(targetId);
-        element?.scrollIntoView({ behavior: "smooth" });
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
       } else {
-        window.location.href = `/${href}`;
+        console.error(`Element with id "${targetId}" not found`);
       }
+    } else {
+      router.push(href);
     }
-    onClick?.();
-  }, [smoothScroll, href, pathname, onClick]);
+    if (onClick) onClick();
+  };
 
   return (
-    <Link href={href} passHref>
-      <Button
-        variant={isActive ? "secondary" : "ghost"}
-        className="w-full justify-start"
-        onClick={handleClick}
-      >
-        {icon}
-        <span className="ml-2">{children}</span>
-      </Button>
-    </Link>
+    <Button
+      variant={isActive ? "secondary" : "ghost"}
+      className="w-full justify-start"
+      onClick={handleClick}
+    >
+      {icon}
+      <span className="ml-2">{children}</span>
+    </Button>
   );
-});
-
-NavLink.displayName = 'NavLink';
+};
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const closeSheet = useCallback(() => setIsOpen(false), []);
+  const closeSheet = () => setIsOpen(false);
 
-  const navLinks = useMemo(() => [
-    { href: "/", icon: <Home className="h-4 w-4" />, label: "Home" },
-    { href: "#about", icon: <User className="h-4 w-4" />, label: "About", smoothScroll: true },
-    { href: "/blog", icon: <BookOpen className="h-4 w-4" />, label: "Blog" },
-  ], []);
-
-  const NavContent = useMemo(() => (
+  const NavContent: React.FC = () => (
     <>
-      {navLinks.map((link) => (
-        <NavLink
-          key={link.href}
-          href={link.href}
-          icon={link.icon}
-          onClick={closeSheet}
-          smoothScroll={link.smoothScroll}
-        >
-          {link.label}
-        </NavLink>
-      ))}
+      <NavLink
+        href="/"
+        icon={<Home className="h-4 w-4" />}
+        onClick={closeSheet}
+      >
+        Home
+      </NavLink>
+      <NavLink
+        href="#about"
+        icon={<User className="h-4 w-4" />}
+        onClick={closeSheet}
+        smoothScroll
+      >
+        About
+      </NavLink>
+      <NavLink
+        href="/blog"
+        icon={<BookOpen className="h-4 w-4" />}
+        onClick={closeSheet}
+      >
+        Blog
+      </NavLink>
     </>
-  ), [navLinks, closeSheet]);
+  );
 
   return (
     <nav className="backdrop-blur border-b-2 border-gray-200 fixed top-0 left-0 right-0 z-50">
@@ -94,7 +98,7 @@ const NavigationBar: React.FC = () => {
           </Button>
         </Link>
         <div className="hidden md:flex items-center space-x-4">
-          {NavContent}
+          <NavContent />
         </div>
         <div className="flex items-center md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -105,7 +109,7 @@ const NavigationBar: React.FC = () => {
             </SheetTrigger>
             <SheetContent side="right" className="w-[200px] sm:w-[300px]">
               <nav className="flex flex-col space-y-4 mt-4">
-                {NavContent}
+                <NavContent />
               </nav>
             </SheetContent>
           </Sheet>
@@ -115,4 +119,4 @@ const NavigationBar: React.FC = () => {
   );
 };
 
-export default React.memo(NavigationBar);
+export default NavigationBar;
