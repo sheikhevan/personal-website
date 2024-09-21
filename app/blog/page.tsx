@@ -4,6 +4,29 @@ import { getSortedPostsData } from "../../lib/posts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon } from "lucide-react";
 
+const BlogPostCard = React.memo(({ id, date, title }) => (
+  <Link
+    href={`/blog/${id}`}
+    className="transform transition duration-300 hover:scale-105"
+  >
+    <Card className="h-full bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow duration-300">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold text-brunswick dark:text-sage">
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <time dateTime={date}>{date}</time>
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
+));
+
+BlogPostCard.displayName = 'BlogPostCard';
+
 export default async function BlogPage() {
   const allPostsData = await getSortedPostsData();
 
@@ -16,25 +39,7 @@ export default async function BlogPage() {
         <div className="max-w-4xl w-full px-4 sm:px-6 lg:px-8 pb-16">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {allPostsData.map(({ id, date, title }) => (
-              <Link
-                key={id}
-                href={`/blog/${id}`}
-                className="transform transition duration-300 hover:scale-105"
-              >
-                <Card className="h-full bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader>
-                    <CardTitle className="text-xl font-semibold text-brunswick dark:text-sage">
-                      {title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      <time dateTime={date}>{date}</time>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              <BlogPostCard key={id} id={id} date={date} title={title} />
             ))}
           </div>
         </div>

@@ -3,6 +3,7 @@ import { getPostData, getAllPostIds } from "../../../lib/posts";
 import dynamic from "next/dynamic";
 
 const BlogPostContent = dynamic(() => import("@/components/BlogPostContent"), {
+  loading: () => <p>Loading...</p>,
   ssr: false,
 });
 
@@ -22,11 +23,13 @@ export default async function BlogPost({ params }: Params) {
 
   return (
     <main className="min-h-screen w-full bg-white bg-dot-hunter/[0.4] pt-20 px-4 sm:px-6 lg:px-8">
-      <BlogPostContent
-        title={postData.title}
-        date={postData.date}
-        content={postData.content}
-      />
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <BlogPostContent
+          title={postData.title}
+          date={postData.date}
+          content={postData.content}
+        />
+      </React.Suspense>
     </main>
   );
 }
