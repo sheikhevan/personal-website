@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Home, BookOpen, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -23,34 +23,39 @@ const NavLink: React.FC<NavLinkProps> = ({
   smoothScroll,
 }) => {
   const pathname = usePathname();
-  const router = useRouter();
   const isActive = pathname === href;
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (smoothScroll) {
+      e.preventDefault();
       const targetId = href.replace("#", "");
-      const element = document.getElementById(targetId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      if (pathname === "/") {
+        // If we're on the home page, scroll smoothly
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.error(`Element with id "${targetId}" not found`);
+        }
       } else {
-        console.error(`Element with id "${targetId}" not found`);
+        // If we're not on the home page, navigate to home with a hash
+        window.location.href = `/${href}`;
       }
-    } else {
-      router.push(href);
     }
     if (onClick) onClick();
   };
 
   return (
-    <Button
-      variant={isActive ? "secondary" : "ghost"}
-      className="w-full justify-start"
-      onClick={handleClick}
-    >
-      {icon}
-      <span className="ml-2">{children}</span>
-    </Button>
+    <Link href={href} passHref>
+      <Button
+        variant={isActive ? "secondary" : "ghost"}
+        className="w-full justify-start"
+        onClick={handleClick}
+      >
+        {icon}
+        <span className="ml-2">{children}</span>
+      </Button>
+    </Link>
   );
 };
 
