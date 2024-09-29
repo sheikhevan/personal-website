@@ -2,134 +2,121 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, BookOpen, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 interface NavLinkProps {
-  href: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  onClick?: () => void;
-  smoothScroll?: boolean;
+    href: string;
+    icon: React.ReactNode;
+    children: React.ReactNode;
+    onClick?: () => void;
+    smoothScroll?: boolean;
 }
 
 const NavLink: React.FC<NavLinkProps> = ({
-                                           href,
-                                           icon,
-                                           children,
-                                           onClick,
-                                           smoothScroll,
+                                             href,
+                                             icon,
+                                             children,
+                                             onClick,
+                                             smoothScroll,
                                          }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
+    const pathname = usePathname();
+    const router = useRouter();
+    const isActive = pathname === href;
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (smoothScroll) {
-      e.preventDefault();
-      const targetId = href.replace("#", "");
-      if (pathname === "/") {
-        // If we're on the home page, scroll smoothly
-        const element = document.getElementById(targetId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (smoothScroll) {
+            const targetId = href.replace("#", "");
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            } else {
+                console.error(`Element with id "${targetId}" not found`);
+            }
         } else {
-          console.error(`Element with id "${targetId}" not found`);
+            router.push(href);
         }
-      } else {
-        // If we're not on the home page, navigate to home with a hash
-        window.location.href = `/${href}`;
-      }
-    }
-    if (onClick) onClick();
-  };
+        if (onClick) onClick();
+    };
 
-  return (
-      <Link href={href} passHref>
+    return (
         <Button
             variant={isActive ? "secondary" : "ghost"}
             className="w-full justify-start"
             onClick={handleClick}
         >
-          {icon}
-          <span className="ml-2">{children}</span>
+            {icon}
+            <span className="ml-2">{children}</span>
         </Button>
-      </Link>
-  );
+    );
 };
 
 const NavigationBar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  const closeSheet = () => setIsOpen(false);
+    const closeSheet = () => setIsOpen(false);
 
-  const NavContent: React.FC = () => (
-      <>
-        <NavLink
-            href="/"
-            icon={<Home className="h-4 w-4" />}
-            onClick={closeSheet}
-        >
-          Home
-        </NavLink>
-        <NavLink
-            href="#about"
-            icon={<User className="h-4 w-4" />}
-            onClick={closeSheet}
-            smoothScroll
-        >
-          About
-        </NavLink>
-        <NavLink
-            href="#skills"
-            icon={<BookOpen className="h-4 w-4" />}
-            onClick={closeSheet}
-            smoothScroll
-        >
-          Skills
-        </NavLink>
-        <NavLink
-            href="/blog"
-            icon={<BookOpen className="h-4 w-4" />}
-            onClick={closeSheet}
-        >
-          Blog
-        </NavLink>
-      </>
-  );
-
-  return (
-      <nav className="backdrop-blur border-b-2 border-gray-200 fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-          <Link href="/" passHref>
-            <Button
-                variant="ghost"
-                className="text-3xl hover:bg-white hover:text-hunter text-hunter font-bold"
+    const NavContent: React.FC = () => (
+        <>
+            <NavLink
+                href="/"
+                icon={<Home className="h-4 w-4" />}
+                onClick={closeSheet}
             >
-              EA
-            </Button>
-          </Link>
-          <div className="hidden md:flex items-center space-x-4">
-            <NavContent />
-          </div>
-          <div className="flex items-center md:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[200px] sm:w-[300px]">
-                <nav className="flex flex-col space-y-4 mt-4">
-                  <NavContent />
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </nav>
-  );
+                Home
+            </NavLink>
+            <NavLink
+                href="#about"
+                icon={<User className="h-4 w-4" />}
+                onClick={closeSheet}
+                smoothScroll
+            >
+                About
+            </NavLink>
+            <NavLink
+                href="/blog"
+                icon={<BookOpen className="h-4 w-4" />}
+                onClick={closeSheet}
+            >
+                Blog
+            </NavLink>
+        </>
+    );
+
+    return (
+        <nav className="backdrop-blur border-b-2 border-gray-200 fixed top-0 left-0 right-0 z-50">
+            <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+                <Link href="/" passHref>
+                    <Button
+                        variant="ghost"
+                        className="text-3xl hover:bg-white hover:text-hunter text-hunter font-bold"
+                    >
+                        EA
+                    </Button>
+                </Link>
+                <div className="hidden md:flex items-center space-x-4">
+                    <NavContent />
+                </div>
+                <div className="flex items-center md:hidden">
+                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <Menu className="h-6 w-6" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-[200px] sm:w-[300px]">
+                            <nav className="flex flex-col space-y-4 mt-4">
+                                <NavContent />
+                            </nav>
+                        </SheetContent>
+                    </Sheet>
+                </div>
+            </div>
+        </nav>
+    );
 };
 
 export default NavigationBar;
