@@ -2,10 +2,19 @@
 
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 
 export default function Home() {
+  const router = useRouter();
+
   const handleSmoothScroll = (targetId: string) => {
-    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(`/#${targetId}`);
+    }
   };
 
   const skills = [

@@ -12,7 +12,6 @@ interface NavLinkProps {
     icon: React.ReactNode;
     children: React.ReactNode;
     onClick?: () => void;
-    smoothScroll?: boolean;
 }
 
 const NavLink: React.FC<NavLinkProps> = ({
@@ -20,7 +19,6 @@ const NavLink: React.FC<NavLinkProps> = ({
                                              icon,
                                              children,
                                              onClick,
-                                             smoothScroll,
                                          }) => {
     const pathname = usePathname();
     const router = useRouter();
@@ -28,15 +26,22 @@ const NavLink: React.FC<NavLinkProps> = ({
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (smoothScroll) {
-            const targetId = href.replace("#", "");
-            const element = document.getElementById(targetId);
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
+        if (href.startsWith('#')) {
+            if (pathname === '/') {
+                // On home page, use smooth scroll
+                const targetId = href.replace("#", "");
+                const element = document.getElementById(targetId);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                } else {
+                    console.error(`Element with id "${targetId}" not found`);
+                }
             } else {
-                console.error(`Element with id "${targetId}" not found`);
+                // Not on home page, navigate to home page with anchor
+                router.push(`/${href}`);
             }
         } else {
+            // Regular navigation for non-anchor links
             router.push(href);
         }
         if (onClick) onClick();
@@ -72,7 +77,6 @@ const NavigationBar: React.FC = () => {
                 href="#about"
                 icon={<User className="h-4 w-4" />}
                 onClick={closeSheet}
-                smoothScroll
             >
                 About
             </NavLink>
