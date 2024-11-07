@@ -35,7 +35,7 @@ export default function BlogPostContent({
     <>
       <article className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-8 sm:p-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-brunswick mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-sage to-fern mb-6">
             {title}
           </h1>
           <div className="flex items-center text-lg text-gray-500 mb-10">
