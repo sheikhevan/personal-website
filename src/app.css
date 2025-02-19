@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+html {
+	font-family: 'Open Sans Variable', sans-serif;
+}
+
+h1 {
+	@apply text-6xl font-bold;
+}
+
+h2 {
+	@apply text-5xl;
+}
+
+h3 {
+	@apply text-4xl;
+}
+
+h4 {
+	@apply text-3xl;
+}
